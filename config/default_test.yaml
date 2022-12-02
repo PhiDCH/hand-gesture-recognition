@@ -12,8 +12,8 @@ viz: True
 img_path: asserts/1.jpg
 video: asserts/1.avi  # video path or id camera
 
-model_pose: hand_pose_resnet18_att_244_244.pth
-model_classify: svmmodel.sav
+model_pose: asserts/hand_pose_resnet18_att_244_244.pth
+model_classify: asserts/svmmodel.sav
 
 defaults:
   - _self_
