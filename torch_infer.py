@@ -16,12 +16,12 @@ import trt_pose.coco
 
 DEVICE = torch.device('cuda:0')
 IMAGE_SIZE = (224, 224)
-with open('preprocess/hand_pose.json', 'r') as f:
+with open('asserts/hand_pose.json', 'r') as f:
     hand_pose = json.load(f)
 topology = trt_pose.coco.coco_category_to_topology(hand_pose)
 num_parts = len(hand_pose['keypoints'])
 num_links = len(hand_pose['skeleton'])
-with open('preprocess/gesture.json', 'r') as f:
+with open('asserts/gesture.json', 'r') as f:
     gesture = json.load(f)
 gesture_type = gesture["classes"]
 

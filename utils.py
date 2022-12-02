@@ -15,7 +15,7 @@ def draw_gesture(img: np.array, name_gesture: str) -> np.array:
     return img
 
 
-with open('preprocess/hand_pose.json', 'r') as f:
+with open('asserts/hand_pose.json', 'r') as f:
     hand_pose = json.load(f)
 
 
