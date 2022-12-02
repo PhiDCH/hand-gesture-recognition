@@ -80,7 +80,7 @@ class TorchPose():
 
 class SVMClassifier():
     def __init__(self, model_weights: str) -> None:
-        from preprocessdata import preprocessdata
+        from utils import preprocessdata
         self.preprocessdata = preprocessdata(topology, num_parts)
 
         from sklearn.pipeline import make_pipeline

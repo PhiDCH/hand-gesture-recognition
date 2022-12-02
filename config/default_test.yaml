@@ -9,8 +9,8 @@ list_mode: ['all', 'model', 'image', 'video']
 mode: all   
 viz: True
 
-img_path: 1.jpg
-video: 1.avi  # video path or id camera
+img_path: asserts/1.jpg
+video: asserts/1.avi  # video path or id camera
 
 model_pose: hand_pose_resnet18_att_244_244.pth
 model_classify: svmmodel.sav
