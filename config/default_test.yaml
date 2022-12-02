@@ -1,0 +1,23 @@
+hydra:
+  output_subdir: Null
+  run:
+    dir: .
+  searchpath:
+    - pkg://config
+
+list_mode: ['all', 'model', 'image', 'video']
+mode: all   
+viz: True
+
+img_path: 1.jpg
+video: 1.avi  # video path or id camera
+
+model_pose: hand_pose_resnet18_att_244_244.pth
+model_classify: svmmodel.sav
+
+defaults:
+  - _self_
+
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
