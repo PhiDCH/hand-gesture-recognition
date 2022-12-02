@@ -87,8 +87,8 @@ def _resnet_pose_att(cmap_channels, paf_channels, upsample_channels, resnet, fea
 
 
 def resnet18_baseline_att(cmap_channels, paf_channels, upsample_channels=256, pretrained=True, num_upsample=3, num_flat=0):
-    # resnet = torchvision.models.resnet18(pretrained=pretrained)
-    resnet = torchvision.models.resnet18(weights='ResNet18_Weights.DEFAULT')
+    resnet = torchvision.models.resnet18(pretrained=pretrained)
+    # resnet = torchvision.models.resnet18(weights='ResNet18_Weights.DEFAULT')
     return _resnet_pose_att(cmap_channels, paf_channels, upsample_channels, resnet, 512, num_upsample, num_flat)
 
 
