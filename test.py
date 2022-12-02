@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 
-from torch_infer import TorchPose, SVMClassifier, draw_joints, draw_gesture
+from torch_infer import TorchPose, SVMClassifier
+from utils import draw_gesture, draw_joints
 import cv2
 from PIL import Image
-import numpy as np
 import unittest
-import torch
 import hydra
 from omegaconf import OmegaConf, DictConfig
 from loguru import logger

@@ -10,16 +10,10 @@ from torchvision import transforms
 from PIL import Image
 
 from model import resnet18_baseline_att
-from trt_pose.draw_objects import DrawObjects
 from trt_pose.parse_objects import ParseObjects
 import trt_pose.coco
 
 
-from loguru import logger
-
-
-MODEL_WEIGHTS = 'hand_pose_resnet18_att_244_244.pth'
-TRT = False
 DEVICE = torch.device('cuda:0')
 IMAGE_SIZE = (224, 224)
 with open('preprocess/hand_pose.json', 'r') as f:
@@ -41,8 +35,7 @@ class TorchPose():
         self.preprocessdata = preprocessdata(topology, num_parts)
 
         self.model = resnet18_baseline_att(num_parts, 2 * num_links).eval()
-        self.model.load_state_dict(torch.load(MODEL_WEIGHTS))
-        logger.info(f'load model pose regression from {MODEL_WEIGHTS}')
+        self.model.load_state_dict(torch.load(model_weights))
 
         self.model.to(DEVICE)
         self.img_shape = IMAGE_SIZE
@@ -86,7 +79,7 @@ class TorchPose():
 
 
 class SVMClassifier():
-    def __init__(self, model_weights:str) -> None:
+    def __init__(self, model_weights: str) -> None:
         from preprocessdata import preprocessdata
         self.preprocessdata = preprocessdata(topology, num_parts)
 
@@ -96,10 +89,8 @@ class SVMClassifier():
         import pickle
         self.clf = make_pipeline(
             StandardScaler(), SVC(gamma='auto', kernel='rbf'))
-        filename = 'svmmodel.sav'
-        with open(filename, 'rb') as f:
+        with open(model_weights, 'rb') as f:
             self.clf = pickle.load(f)
-        logger.info(f'load model SVM classifier from {filename}')
 
         self.num_frames = 5
         self.res_queue = [self.num_frames]*self.num_frames
@@ -130,30 +121,3 @@ class SVMClassifier():
         elif self.res_queue == [7]*self.num_frames:
             self.text = gesture_type[6]
         return self.text
-
-
-def draw_gesture(img: np.array, name_gesture: str) -> np.array:
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    color = (255, 0, 0)
-    org = (50, 50)
-    thickness = 2
-    fontScale = 0.5
-    img = cv2.putText(img, name_gesture, org, font,
-                      fontScale, color, thickness, cv2.LINE_AA)
-    return img
-
-
-def draw_joints(image, joints) -> np.array:
-    for i in joints:
-        cv2.circle(image, (i[0], i[1]), 2, (0, 0, 255), 1)
-    cv2.circle(image, (joints[0][0], joints[0][1]), 2, (255, 0, 255), 1)
-    for i in hand_pose['skeleton']:
-        if joints[i[0]-1][0] == 0 or joints[i[1]-1][0] == 0:
-            break
-        cv2.line(image, (joints[i[0]-1][0], joints[i[0]-1][1]),
-                 (joints[i[1]-1][0], joints[i[1]-1][1]), (0, 255, 0), 1)
-
-    return image
-
-if __name__ == '__main__':
-    pass
