@@ -8,6 +8,7 @@ import unittest
 import hydra
 from omegaconf import OmegaConf, DictConfig
 from loguru import logger
+import time
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -46,12 +47,17 @@ class MyCase(unittest.TestCase):
         if isinstance(CFG.video, int):
             logger.info('test with camera')
 
+        total_time = 0
+        num_frames = 0
         cap = cv2.VideoCapture(CFG.video)
         while (cap.isOpened()):
             ret, frame = cap.read()
             if ret:
+                t1 = time.time()
                 joints = model_pose(frame)
                 name_gesture = model_classify(joints)
+                total_time += time.time() - t1
+                num_frames += 1
                 if CFG.viz:
                     img = draw_joints(model_pose.prepro(frame), joints)
                     img = draw_gesture(img, name_gesture)
@@ -64,6 +70,9 @@ class MyCase(unittest.TestCase):
                 break
         cap.release()
         cv2.destroyAllWindows()
+        speed = num_frames/total_time
+        if CFG.test_speed:
+            logger.info(f'model inference in speed {speed:.2f}hz')
 
 
 if __name__ == '__main__':

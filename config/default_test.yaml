@@ -7,7 +7,8 @@ hydra:
 
 list_mode: ['all', 'model', 'image', 'video']
 mode: all   
-viz: True
+viz: false
+test_speed: True
 
 img_path: asserts/1.jpg
 video: asserts/1.avi  # video path or id camera
