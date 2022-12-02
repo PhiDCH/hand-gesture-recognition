@@ -31,7 +31,7 @@ class TorchPose():
         # self.parse_objects = ParseObjects(topology, cmap_threshold=0.15, link_threshold=0.15)
         self.parse_objects = ParseObjects(
             topology, cmap_threshold=0.15, link_threshold=0.15)
-        from preprocessdata import preprocessdata
+        from utils import preprocessdata
         self.preprocessdata = preprocessdata(topology, num_parts)
 
         self.model = resnet18_baseline_att(num_parts, 2 * num_links).eval()
